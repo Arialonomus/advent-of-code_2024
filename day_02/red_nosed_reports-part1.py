@@ -23,15 +23,25 @@ for report in reports:
     num_levels = len(report)
     delta = report[0] - report[1]
     is_increasing = delta < 0
-    is_safe = SAFE_THRESHOLD_MIN <= abs(delta) <= SAFE_THRESHOLD_MAX
+
+    def check_if_safe(difference):
+        """
+        Checks if the delta between two levels if safe.
+        Pre-Condition: Scoped variable is_increasing is set from the first 2 elements
+        in a report
+        :param difference: The difference of two adjacent integer levels in a report
+        :return: True if the delta is safe, otherwise return False
+        """
+        return ((difference < 0) == is_increasing and
+                SAFE_THRESHOLD_MIN <= abs(difference) <= SAFE_THRESHOLD_MAX)
+
+    is_safe = check_if_safe(delta)
     i = 1
 
     # Check the delta and direction of each level in series
     while i < num_levels - 1 and is_safe:
         delta = report[i] - report[i + 1]
-        if not (delta < 0) == is_increasing or not SAFE_THRESHOLD_MIN <= abs(delta) <= SAFE_THRESHOLD_MAX:
-            # Levels switch direction or are outside safe threshold
-            is_safe = False
+        is_safe = check_if_safe(delta)
         i += 1
 
     if is_safe:
