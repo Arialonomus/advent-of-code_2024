@@ -8,7 +8,7 @@ def get_args(day, puzzle_name):
 
     # Set up description string
     puzzle_str = str(day) + ' puzzle - "' + puzzle_name + '"'
-    desc_str = 'A solution to Advent of Code 2023 day ' + puzzle_str
+    desc_str = 'A solution to Advent of Code 2024 day ' + puzzle_str
 
     # Parse arguments
     parser = argparse.ArgumentParser(description=desc_str)
