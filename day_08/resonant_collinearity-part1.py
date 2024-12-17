@@ -26,3 +26,36 @@ for frequency in frequency_list:
     num_antennae = positions.shape[0]
     if num_antennae > 1:  # Lone antennas don't create antinodes
         antenna_pairs += list(combinations(positions, 2))
+
+# Calculate antinode positions and place them on map
+height, width = antenna_map.shape
+
+def is_on_map(position):
+    """
+    Validates a position is within the bounds of the grid map
+    :param position: A 2D array representing the row/col indices for the position
+    :return: True if the position is on the grid, otherwise return False
+    """
+
+    row, col = position
+    return 0 <= row < height and 0 <= col < width
+
+for pair in antenna_pairs:
+    # Use vector subtraction to calculate distance between pairs
+    antenna_a, antenna_b = pair
+    distance = antenna_b - antenna_a
+
+    # Calculate antinode positions using distance
+    antinode_a = antenna_a - distance
+    antinode_b = antenna_b + distance
+
+    # Place antinodes on map if they are within range
+    if is_on_map(antinode_a):
+        antenna_map[antinode_a[0]][antinode_a[1]] = '#'
+    if is_on_map(antinode_b):
+        antenna_map[antinode_b[0]][antinode_b[1]] = '#'
+
+# Sum unique antinode positions and output result
+num_antinode_locations = np.sum(antenna_map == '#')
+print(num_antinode_locations)
+
