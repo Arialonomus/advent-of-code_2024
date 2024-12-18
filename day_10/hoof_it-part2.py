@@ -13,7 +13,7 @@ MAX_ELEVATION = 9
 # Parse program arguments
 args = get_args(10, "Hoof It (Part 2)")
 
-# Read input line into disk map lists
+# Read input into matrix representing topographical trail map
 with args.input_file as file:
     trail_map = np.array([list(line) for line in file.read().splitlines()], dtype=int)
 
